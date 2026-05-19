@@ -1,0 +1,79 @@
+<div class="page-header">
+  <div>
+    <h1 class="page-title">
+      @if (customerId()) {
+        Editar cliente
+      } @else {
+        Nuevo cliente
+      }
+    </h1>
+    <p class="page-subtitle">Información básica del cliente</p>
+  </div>
+  <a mat-button class="back-btn" routerLink="/app/customers">
+    <mat-icon>arrow_back</mat-icon>
+    Volver a clientes
+  </a>
+</div>
+
+<mat-card>
+  <mat-card-content>
+    @if (isLoading()) {
+      <div class="loading">
+        <mat-spinner diameter="32" />
+      </div>
+    } @else {
+      <form class="form" [formGroup]="form" (ngSubmit)="save()">
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombre" />
+            @if (form.controls.nombre.touched && form.controls.nombre.invalid) {
+              <mat-error>Obligatorio</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Apellido</mat-label>
+            <input matInput formControlName="apellido" />
+            @if (form.controls.apellido.touched && form.controls.apellido.invalid) {
+              <mat-error>Obligatorio</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" autocomplete="email" />
+          @if (form.controls.email.touched && form.controls.email.invalid) {
+            <mat-error>Email inválido</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>Teléfono</mat-label>
+            <input matInput formControlName="telefono" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Dirección</mat-label>
+            <input matInput formControlName="direccion" />
+          </mat-form-field>
+        </div>
+
+        <mat-checkbox formControlName="activo">Cliente activo</mat-checkbox>
+
+        <div class="actions">
+          <a mat-button routerLink="/app/customers">Cancelar</a>
+          <button mat-flat-button class="save-btn" [disabled]="isSaving()">
+            @if (isSaving()) {
+              <mat-spinner diameter="18" />
+            } @else {
+              Guardar
+            }
+          </button>
+        </div>
+      </form>
+    }
+  </mat-card-content>
+</mat-card>

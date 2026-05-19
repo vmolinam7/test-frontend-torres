@@ -1,1 +1,82 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  color-scheme: light;
+  --primary: #667eea;
+  --primary-dark: #764ba2;
+  --bg: #f4f5fa;
+  --card-bg: #ffffff;
+  --text: #1a1a2e;
+  --text-muted: #6b7280;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+}
+
+html,
+body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Material Card overrides ===== */
+mat-card {
+  border-radius: 16px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06) !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  background: var(--card-bg);
+}
+
+/* ===== Table overrides ===== */
+.mat-mdc-table {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.mat-mdc-header-cell {
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted) !important;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  background: rgba(102, 126, 234, 0.04);
+}
+
+/* ===== Form field overrides ===== */
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+/* ===== Button overrides ===== */
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-flat-button.mat-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%) !important;
+  border-radius: 10px !important;
+}
+
+/* ===== Chip status colors ===== */
+mat-chip.ok {
+  background: rgba(16, 185, 129, 0.12) !important;
+  color: #065f46 !important;
+}
+
+mat-chip.warn {
+  background: rgba(245, 158, 11, 0.12) !important;
+  color: #92400e !important;
+}
+
+mat-chip.bad {
+  background: rgba(239, 68, 68, 0.12) !important;
+  color: #991b1b !important;
+}

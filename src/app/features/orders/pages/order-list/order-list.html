@@ -1,0 +1,143 @@
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Pedidos</h1>
+    <p class="page-subtitle">Listado con filtros por estado, fecha y cliente</p>
+  </div>
+  <div class="header-actions">
+    <a mat-flat-button class="primary-btn" routerLink="/app/orders/new">
+      <mat-icon>add</mat-icon>
+      Nuevo pedido
+    </a>
+    <button mat-stroked-button class="secondary-btn" (click)="clearFilters()">
+      <mat-icon>filter_alt_off</mat-icon>
+      Limpiar
+    </button>
+  </div>
+</div>
+
+<mat-card>
+  <mat-card-content>
+    <div class="filters">
+      <mat-form-field appearance="outline">
+        <mat-label>Cliente</mat-label>
+        <mat-select
+          [ngModel]="filterCustomerId()"
+          (ngModelChange)="filterCustomerId.set($event); load()"
+        >
+          <mat-option [value]="null">Todos</mat-option>
+          @for (c of customers(); track c.id) {
+            <mat-option [value]="c.id">{{ c.nombre }} {{ c.apellido }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select [ngModel]="filterEstado()" (ngModelChange)="filterEstado.set($event); load()">
+          <mat-option value="">Todos</mat-option>
+          @for (e of estados; track e) {
+            <mat-option [value]="e">{{ e }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha inicio</mat-label>
+        <input
+          matInput
+          [matDatepicker]="pickerInicio"
+          [ngModel]="filterInicio()"
+          (ngModelChange)="filterInicio.set($event); load()"
+        />
+        <mat-datepicker-toggle matIconSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+        <mat-datepicker #pickerInicio></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha fin</mat-label>
+        <input
+          matInput
+          [matDatepicker]="pickerFin"
+          [ngModel]="filterFin()"
+          (ngModelChange)="filterFin.set($event); load()"
+        />
+        <mat-datepicker-toggle matIconSuffix [for]="pickerFin"></mat-datepicker-toggle>
+        <mat-datepicker #pickerFin></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    @if (isLoading()) {
+      <div class="loading">
+        <mat-spinner diameter="32" />
+      </div>
+    } @else {
+      <table mat-table [dataSource]="orders()" class="table">
+        <ng-container matColumnDef="descripcion">
+          <th mat-header-cell *matHeaderCellDef>Pedido</th>
+          <td mat-cell *matCellDef="let row">
+            <div class="name">{{ row.descripcion }}</div>
+            <div class="muted">#{{ row.id }} · Cant: {{ row.cantidad }} · ${{ row.precioUnitario }}</div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="customer">
+          <th mat-header-cell *matHeaderCellDef>Cliente</th>
+          <td mat-cell *matCellDef="let row">{{ row.customerNombre || ('ID ' + row.customerId) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef>Total</th>
+          <td mat-cell *matCellDef="let row">${{ row.total ?? (row.cantidad * row.precioUnitario) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-chip-set>
+              <mat-chip
+                [class.ok]="row.estado === 'COMPLETADO'"
+                [class.warn]="row.estado === 'PENDIENTE'"
+                [class.bad]="row.estado === 'CANCELADO'"
+              >
+                {{ row.estado }}
+              </mat-chip>
+            </mat-chip-set>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef>Fecha</th>
+          <td mat-cell *matCellDef="let row">{{ row.fechaPedido || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row" class="actions">
+            <a mat-icon-button [routerLink]="['/app/orders', row.id, 'edit']" aria-label="Editar">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <button mat-icon-button (click)="setStatus(row,'COMPLETADO')" aria-label="Completar">
+              <mat-icon>check_circle</mat-icon>
+            </button>
+            <button mat-icon-button (click)="setStatus(row,'CANCELADO')" aria-label="Cancelar">
+              <mat-icon>cancel</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="delete(row)" aria-label="Eliminar">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns()"></tr>
+      </table>
+
+      @if (orders().length === 0) {
+        <div class="empty">
+          <mat-icon class="empty-icon">inbox</mat-icon>
+          <p>No hay pedidos para mostrar.</p>
+        </div>
+      }
+    }
+  </mat-card-content>
+</mat-card>

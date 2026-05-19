@@ -1,0 +1,81 @@
+<div class="login-wrapper">
+  <!-- Left panel: Branding -->
+  <div class="brand-panel">
+    <div class="brand-content">
+      <div class="brand-icon">
+        <mat-icon class="brand-logo">dashboard</mat-icon>
+      </div>
+      <h1 class="brand-title">Gestión de pedidos</h1>
+      <p class="brand-subtitle">
+        Gestiona tus clientes y pedidos de forma inteligente, rápida y segura.
+      </p>
+      <div class="brand-features">
+        <div class="feature">
+          <mat-icon>group</mat-icon>
+          <span>Gestión de clientes</span>
+        </div>
+        <div class="feature">
+          <mat-icon>shopping_cart</mat-icon>
+          <span>Control de pedidos</span>
+        </div>
+        <div class="feature">
+          <mat-icon>bar_chart</mat-icon>
+          <span>Dashboard en tiempo real</span>
+        </div>
+      </div>
+    </div>
+    <div class="brand-decor"></div>
+  </div>
+
+  <!-- Right panel: Form -->
+  <div class="form-panel">
+    <div class="form-container">
+      <div class="form-header">
+        <h2 class="form-title">Bienvenido</h2>
+        <p class="form-subtitle">Inicia sesión para continuar</p>
+      </div>
+
+      <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <mat-icon matPrefix class="field-icon">email</mat-icon>
+          <input matInput formControlName="email" type="email" autocomplete="email" placeholder="tu@email.com" />
+          @if (form.controls.email.touched && form.controls.email.invalid) {
+            <mat-error>Ingresa un email válido</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <mat-icon matPrefix class="field-icon">lock</mat-icon>
+          <input
+            matInput
+            formControlName="password"
+            [type]="hidePassword() ? 'password' : 'text'"
+            autocomplete="current-password"
+            placeholder="••••••••"
+          />
+          <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
+            <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if (form.controls.password.touched && form.controls.password.invalid) {
+            <mat-error>La contraseña es obligatoria</mat-error>
+          }
+        </mat-form-field>
+
+        <button mat-flat-button class="submit-btn" [disabled]="isSubmitting()">
+          @if (isSubmitting()) {
+            <mat-spinner diameter="20" />
+          } @else {
+            Iniciar sesión
+          }
+        </button>
+      </form>
+
+      <div class="form-footer">
+        <span class="footer-text">¿No tienes cuenta?</span>
+        <a mat-button routerLink="/auth/register" class="register-link">Crear cuenta</a>
+      </div>
+    </div>
+  </div>
+</div>

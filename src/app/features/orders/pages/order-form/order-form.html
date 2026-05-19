@@ -1,0 +1,89 @@
+<div class="page-header">
+  <div>
+    <h1 class="page-title">
+      @if (orderId()) {
+        Editar pedido
+      } @else {
+        Nuevo pedido
+      }
+    </h1>
+    <p class="page-subtitle">Asocia un pedido a un cliente</p>
+  </div>
+  <a mat-button class="back-btn" routerLink="/app/orders">
+    <mat-icon>arrow_back</mat-icon>
+    Volver a pedidos
+  </a>
+</div>
+
+<mat-card>
+  <mat-card-content>
+    @if (isLoading()) {
+      <div class="loading">
+        <mat-spinner diameter="32" />
+      </div>
+    } @else {
+      <form class="form" [formGroup]="form" (ngSubmit)="save()">
+        <mat-form-field appearance="outline">
+          <mat-label>Cliente</mat-label>
+          <mat-select formControlName="customerId">
+            <mat-option [value]="0" disabled>Selecciona un cliente</mat-option>
+            @for (c of customers(); track c.id) {
+              <mat-option [value]="c.id">{{ c.nombre }} {{ c.apellido }}</mat-option>
+            }
+          </mat-select>
+          @if (form.controls.customerId.touched && form.controls.customerId.invalid) {
+            <mat-error>Selecciona un cliente</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Descripción</mat-label>
+          <input matInput formControlName="descripcion" />
+          @if (form.controls.descripcion.touched && form.controls.descripcion.invalid) {
+            <mat-error>Obligatorio</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>Cantidad</mat-label>
+            <input matInput type="number" formControlName="cantidad" />
+            @if (form.controls.cantidad.touched && form.controls.cantidad.invalid) {
+              <mat-error>Mínimo 1</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Precio unitario</mat-label>
+            <input matInput type="number" formControlName="precioUnitario" />
+            @if (form.controls.precioUnitario.touched && form.controls.precioUnitario.invalid) {
+              <mat-error>No puede ser negativo</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        @if (orderId()) {
+          <mat-form-field appearance="outline">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="estado">
+              @for (e of estados; track e) {
+                <mat-option [value]="e">{{ e }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
+
+        <div class="actions">
+          <a mat-button routerLink="/app/orders">Cancelar</a>
+          <button mat-flat-button class="save-btn" [disabled]="isSaving()">
+            @if (isSaving()) {
+              <mat-spinner diameter="18" />
+            } @else {
+              Guardar
+            }
+          </button>
+        </div>
+      </form>
+    }
+  </mat-card-content>
+</mat-card>

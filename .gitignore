@@ -1,17 +1,20 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
-
-# Compiled output
+# ===== Compiled output =====
 /dist
 /tmp
 /out-tsc
 /bazel-out
 
-# Node
+# ===== Node =====
 /node_modules
 npm-debug.log
 yarn-error.log
+pnpm-debug.log
+.npm
 
-# IDEs and editors
+# ===== Angular =====
+/.angular/cache
+
+# ===== IDEs and editors =====
 .idea/
 .project
 .classpath
@@ -19,6 +22,7 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
+*.sublime-project
 
 # Visual Studio Code
 .vscode/*
@@ -26,19 +30,30 @@ yarn-error.log
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-!.vscode/mcp.json
 .history/*
 
-# Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
+# ===== OS files =====
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+
+# ===== Test / Coverage =====
 /coverage
-/libpeerconnection.log
 testem.log
 /typings
 __screenshots__/
 
-# System files
-.DS_Store
-Thumbs.db
+# ===== Environment / Credentials =====
+# NUNCA subir archivos con credenciales reales
+.env
+.env.*
+*.local
+**/environment.local.ts
+
+# ===== Misc =====
+*.sass-cache/
+/connect.lock
+/libpeerconnection.log
+*.log
+*.tgz

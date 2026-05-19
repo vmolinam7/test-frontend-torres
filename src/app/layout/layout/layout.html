@@ -1,0 +1,45 @@
+<mat-sidenav-container class="container">
+  <mat-sidenav mode="side" opened class="sidenav">
+    <div class="brand">
+      <div class="brand-icon-wrap">
+        <mat-icon class="brand-icon">dashboard</mat-icon>
+      </div>
+      <div class="brand-text">
+        <div class="brand-title">Gestión de pedidos</div>
+        <div class="brand-subtitle">Gestión & Dashboard</div>
+      </div>
+    </div>
+
+    <div class="nav-section-label">MENÚ PRINCIPAL</div>
+
+    <mat-nav-list>
+      <a mat-list-item class="nav-item" routerLink="/app/dashboard" routerLinkActive="active">
+        <mat-icon matListItemIcon>space_dashboard</mat-icon>
+        <span matListItemTitle>Dashboard</span>
+      </a>
+      <a mat-list-item class="nav-item" routerLink="/app/customers" routerLinkActive="active">
+        <mat-icon matListItemIcon>group</mat-icon>
+        <span matListItemTitle>Clientes</span>
+      </a>
+      <a mat-list-item class="nav-item" routerLink="/app/orders" routerLinkActive="active">
+        <mat-icon matListItemIcon>receipt_long</mat-icon>
+        <span matListItemTitle>Pedidos</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="content">
+    <div class="topbar">
+      <span class="topbar-title">Panel de control</span>
+      <span class="spacer"></span>
+      <button mat-button class="logout-btn" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Salir
+      </button>
+    </div>
+
+    <div class="page">
+      <router-outlet />
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

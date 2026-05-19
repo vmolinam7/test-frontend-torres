@@ -1,0 +1,96 @@
+@if (isLoading()) {
+  <div class="loading">
+    <mat-spinner diameter="32" />
+  </div>
+} @else {
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-subtitle">Resumen general de la actividad</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <mat-card class="kpi" appearance="outlined">
+      <div class="kpi-label">Total pedidos</div>
+      <div class="kpi-value">{{ stats()?.totalPedidos ?? 0 }}</div>
+    </mat-card>
+
+    <mat-card class="kpi" appearance="outlined">
+      <div class="kpi-label">Completados</div>
+      <div class="kpi-value">{{ stats()?.pedidosCompletados ?? 0 }}</div>
+    </mat-card>
+
+    <mat-card class="kpi" appearance="outlined">
+      <div class="kpi-label">Pendientes</div>
+      <div class="kpi-value">{{ stats()?.pedidosPendientes ?? 0 }}</div>
+    </mat-card>
+
+    <mat-card class="kpi" appearance="outlined">
+      <div class="kpi-label">Cancelados</div>
+      <div class="kpi-value">{{ stats()?.pedidosCancelados ?? 0 }}</div>
+    </mat-card>
+
+    <mat-card class="kpi" appearance="outlined">
+      <div class="kpi-label">Clientes activos</div>
+      <div class="kpi-value">{{ stats()?.clientesActivos ?? 0 }}</div>
+    </mat-card>
+
+    <mat-card class="kpi" appearance="outlined">
+      <div class="kpi-label">Total clientes</div>
+      <div class="kpi-value">{{ stats()?.totalClientes ?? 0 }}</div>
+    </mat-card>
+  </div>
+
+  <div class="charts">
+    <mat-card appearance="outlined" class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Actividad de pedidos</mat-card-title>
+        <span class="spacer"></span>
+        <mat-button-toggle-group
+          [value]="activityFilter()"
+          (change)="onFilterChange($event.value)"
+          class="filter-toggle"
+          hideSingleSelectionIndicator
+        >
+          <mat-button-toggle value="dia">Último día</mat-button-toggle>
+          <mat-button-toggle value="semana">Última semana</mat-button-toggle>
+          <mat-button-toggle value="mes">Último mes</mat-button-toggle>
+        </mat-button-toggle-group>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart">
+          <apx-chart
+            [series]="activityChart().series"
+            [chart]="activityChart().chart"
+            [xaxis]="activityChart().xaxis"
+            [yaxis]="activityChart().yaxis"
+            [stroke]="activityChart().stroke"
+            [dataLabels]="activityChart().dataLabels"
+            [tooltip]="activityChart().tooltip"
+            [fill]="activityChart().fill"
+            [plotOptions]="activityChart().plotOptions"
+          ></apx-chart>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card appearance="outlined" class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Pedidos por estado</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart">
+          <apx-chart
+            [series]="donutSeries()"
+            [chart]="donutChart().chart"
+            [labels]="donutChart().labels"
+            [legend]="donutChart().legend"
+            [tooltip]="donutChart().tooltip"
+            [plotOptions]="donutChart().plotOptions"
+          ></apx-chart>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+}
