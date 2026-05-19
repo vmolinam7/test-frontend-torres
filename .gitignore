@@ -57,3 +57,6 @@ __screenshots__/
 /libpeerconnection.log
 *.log
 *.tgz
+
+# ===== Antigravity / Gemini =====
+.gemini/
