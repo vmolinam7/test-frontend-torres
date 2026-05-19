@@ -1,4 +1,4 @@
-# 🖥️ Client Management Torres — Frontend
+# 🖥️ Administración de pedidos — Frontend
 
 Aplicación web desarrollada con **Angular 21** y **Angular Material** para la gestión de clientes y pedidos. Consume APIs REST de microservicios backend y ofrece un dashboard con estadísticas en tiempo real.
 
